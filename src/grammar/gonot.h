@@ -20,7 +20,7 @@ typedef struct {
 
 /* identifiers */
 typedef struct {
-    int index;
+    char* identifier;
     constDataType type;
 } varStatementType;
 
@@ -32,7 +32,7 @@ typedef struct {
 } operationStatementType;
 
 typedef struct {
-    int index;
+    char* identifier;
     struct statementTag *expr;
 } assignStatementType;
 
@@ -55,9 +55,9 @@ void yyerror(const char *);
 
 // parsing functions
 statement* parse_const(union dataType data, constDataType type);
-statement* declare_variable(constDataType type, int index);
-statement* retrieve_variable(int index);
-statement* assign(int index, statement* expr);
+statement* declare_variable(constDataType type, const char* identifier);
+statement* retrieve_variable(const char* identifier);
+statement* assign(const char* identifier, statement* expr);
 statement* parse_operation(operatorType type, statement* op1, statement* op2);
 
 // execution functions

@@ -16,13 +16,13 @@ int compile(statement* s_ptr)
             std::cout << consttos(s_ptr->con) << '\n';
             break;
         case DECLARE:
-            std::cout << "declaration variable with index: " << s_ptr->var.index << ", type: " << dttos(s_ptr->var.type) << '\n';
+            std::cout << "declaration variable with idf: " << s_ptr->var.identifier << ", type: " << dttos(s_ptr->var.type) << '\n';
             break;
         case RETRIEVE:
-            std::cout << "retrieving variable with index: " << s_ptr->var.index << '\n';
+            std::cout << "retrieving variable with idf: " << s_ptr->var.identifier << '\n';
             break;
         case ASSIGN:
-            std::cout << "assignment with index: " << s_ptr->ass.index << ", expr_type: " << sttos(s_ptr->ass.expr->type) << '\n';
+            std::cout << "assignment with idf: " << s_ptr->ass.identifier << ", expr_type: " << sttos(s_ptr->ass.expr->type) << '\n';
             break;
         case OPERATION:
             std::cout << "operator: " << oprtos(s_ptr->opr.type) << ", op1_type: " << sttos(s_ptr->opr.op1->type) << ", op2_type: " << sttos(s_ptr->opr.op2->type) << '\n';

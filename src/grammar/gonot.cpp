@@ -1,6 +1,9 @@
 #include "grammar/gonot.h"
 #include "grammar/y.tab.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 statement* parse_const(union dataType data, constDataType type)
 {
     statement *s_ptr = new statement;
@@ -12,33 +15,39 @@ statement* parse_const(union dataType data, constDataType type)
     return s_ptr;
 }
 
-statement* declare_variable(constDataType type, int index)
+statement* declare_variable(constDataType type, const char* identifier)
 {
     statement *s_ptr = new statement;
     
     s_ptr->type = DECLARE;
     s_ptr->var.type = type;
-    s_ptr->var.index = index;
+    size_t length = sizeof(identifier) / sizeof(char); 
+    s_ptr->var.identifier = (char *)malloc(length * sizeof(char));
+    strcpy(s_ptr->var.identifier, identifier);
 
     return s_ptr;
 }
 
-statement* retrieve_variable(int index)
+statement* retrieve_variable(const char* identifier)
 {
     statement *s_ptr = new statement;
     
     s_ptr->type = RETRIEVE;
-    s_ptr->var.index = index;
+    size_t length = sizeof(identifier) / sizeof(char); 
+    s_ptr->var.identifier = (char *)malloc(length * sizeof(char));
+    strcpy(s_ptr->var.identifier, identifier);
 
     return s_ptr;
 }
 
-statement* assign(int index, statement* expr)
+statement* assign(const char* identifier, statement* expr)
 {
     statement *s_ptr = new statement;
 
     s_ptr->type = ASSIGN;
-    s_ptr->ass.index = index;
+    size_t length = sizeof(identifier) / sizeof(char); 
+    s_ptr->ass.identifier = (char *)malloc(length * sizeof(char));
+    strcpy(s_ptr->ass.identifier, identifier);
     s_ptr->ass.expr = expr;
 
     return s_ptr;

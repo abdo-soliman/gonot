@@ -1,4 +1,5 @@
 #include "utils/utils.h"
+#include <iostream>
 
 std::string sttos(statementType st_type)
 {
@@ -84,10 +85,16 @@ std::string consttos(constStatementType const_obj)
             info += std::to_string(const_obj.data.float_val);
             break;
         case CHAR_TYPE:
-            info += const_obj.data.char_val;
+            if (const_obj.data.char_val == 0)
+                info += "NULL";
+            else
+                info += const_obj.data.char_val;
             break;
         case STRING_TYPE:
-            info += std::string(const_obj.data.str_val);
+            if (const_obj.data.str_val == 0)
+                info += "NULL";
+            else
+                info += std::string(const_obj.data.str_val);
             break;
         default:
             break;
