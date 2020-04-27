@@ -1,0 +1,5 @@
+.vscode/
+build/
+src/y.tab.c
+src/y.tab.h
+src/lex.yy.c
