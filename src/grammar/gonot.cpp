@@ -1,5 +1,5 @@
-#include "gonot.h"
-#include "y.tab.h"
+#include "grammar/gonot.h"
+#include "grammar/y.tab.h"
 
 statement* parse_const(union dataType data, constDataType type)
 {

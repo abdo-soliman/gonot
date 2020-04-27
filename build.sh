@@ -1,8 +1,8 @@
 #!/bin/bash
 
 cd build
-bison --yacc ../src/gonot.y -d -b ../src/y
-flex -o ../src/lex.yy.c ../src/gonot.l
+bison --yacc ../src/grammar/gonot.y -d -b ../src/grammar/y
+flex -o ../src/grammar/lex.yy.c ../src/grammar/gonot.l
 
 SOURCE_CPP="$(find ../src -name *.cpp -printf '%p ')"
 SOURCE_C="$(find ../src -name *.c -printf '%p ')"

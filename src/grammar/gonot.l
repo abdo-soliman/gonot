@@ -1,7 +1,7 @@
 %{
     #include <stdlib.h>
-    #include "gonot.h"
-    #include "y.tab.h"
+    #include "grammar/gonot.h"
+    #include "grammar/y.tab.h"
 %}
 
 %%

@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 
-#include "gonot.h"
-#include "utils.h"
-#include "y.tab.h"
+#include "grammar/gonot.h"
+#include "utils/utils.h"
+#include "grammar/y.tab.h"
 
 int compile(statement* s_ptr)
 {

@@ -1,6 +1,6 @@
 %{
     #include <stdio.h>
-    #include "gonot.h"
+    #include "grammar/gonot.h"
     int yylex(void);
 
     int int_sym[26];
