@@ -47,9 +47,6 @@ typedef struct statementTag {
     };
 } statement;
 
-extern int int_sym[26];
-extern float float_sym[26];
-
 // log functions
 void yyerror(const char *);
 
@@ -59,9 +56,7 @@ statement* declare_variable(constDataType type, const char* identifier);
 statement* retrieve_variable(const char* identifier);
 statement* assign(const char* identifier, statement* expr);
 statement* parse_operation(operatorType type, statement* op1, statement* op2);
-
 // execution functions
-int compile(statement* p);
-void free_statement(statement *p);
+void free_statement(statement *s_ptr);
 
 #endif

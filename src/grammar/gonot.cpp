@@ -7,11 +7,9 @@
 statement* parse_const(union dataType data, constDataType type)
 {
     statement *s_ptr = new statement;
-
     s_ptr->type = CONST;
     s_ptr->con.type = type;
     s_ptr->con.data = data;
-
     return s_ptr;
 }
 
@@ -21,8 +19,7 @@ statement* declare_variable(constDataType type, const char* identifier)
     
     s_ptr->type = DECLARE;
     s_ptr->var.type = type;
-    size_t length = sizeof(identifier) / sizeof(char); 
-    s_ptr->var.identifier = (char *)malloc(length * sizeof(char));
+    s_ptr->var.identifier = (char *)malloc(strlen(identifier) * sizeof(char));
     strcpy(s_ptr->var.identifier, identifier);
 
     return s_ptr;
@@ -33,8 +30,7 @@ statement* retrieve_variable(const char* identifier)
     statement *s_ptr = new statement;
     
     s_ptr->type = RETRIEVE;
-    size_t length = sizeof(identifier) / sizeof(char); 
-    s_ptr->var.identifier = (char *)malloc(length * sizeof(char));
+    s_ptr->var.identifier = (char *)malloc(strlen(identifier) * sizeof(char));
     strcpy(s_ptr->var.identifier, identifier);
 
     return s_ptr;
@@ -45,8 +41,7 @@ statement* assign(const char* identifier, statement* expr)
     statement *s_ptr = new statement;
 
     s_ptr->type = ASSIGN;
-    size_t length = sizeof(identifier) / sizeof(char); 
-    s_ptr->ass.identifier = (char *)malloc(length * sizeof(char));
+    s_ptr->ass.identifier = (char *)malloc(strlen(identifier) * sizeof(char));
     strcpy(s_ptr->ass.identifier, identifier);
     s_ptr->ass.expr = expr;
 
