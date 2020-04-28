@@ -24,26 +24,30 @@
 %token<str_val> VARIABLE
 %token INT FLOAT CHAR STRING
 
-%type<stmt_ptr> stmt expr const_expr
+%type<stmt_ptr> stmt declare_stmt expr const_expr
 
 %left '+' '-'
 %left '*' '/'
 %%
 
 program:
-        program stmt '\n'         { Compiler::compile($2); free_statement($2); }
+        program stmt '\n'         { Compiler::compile($2, 1); free_statement($2); }
         | /* NULL */
         ;
 
 stmt:
-        expr                    { $$ = $1; }
-        | INT VARIABLE          { $$ = declare_variable(INT_TYPE, $2); }
-        | FLOAT VARIABLE        { $$ = declare_variable(FLOAT_TYPE, $2); }
-        | CHAR VARIABLE         { $$ = declare_variable(CHAR_TYPE, $2); }
-        | STRING VARIABLE       { $$ = declare_variable(STRING_TYPE, $2); }
-        | VARIABLE '=' expr     { $$ = assign($1, $3); }
+        expr                        { $$ = $1; }
+        | declare_stmt              { $$ = $1; }
+        | declare_stmt '=' expr     { Compiler::compile($1, 0); $$ = assign($1->var.identifier, $3); }
+        | VARIABLE '=' expr         { $$ = assign($1, $3); }
         ;
 
+declare_stmt:
+        INT VARIABLE        { $$ = declare_variable(INT_TYPE, $2); }
+        | FLOAT VARIABLE    { $$ = declare_variable(FLOAT_TYPE, $2); }
+        | CHAR VARIABLE     { $$ = declare_variable(CHAR_TYPE, $2); }
+        | STRING VARIABLE   { $$ = declare_variable(STRING_TYPE, $2); }
+        ;
 expr:
         const_expr
         | VARIABLE                  { $$ = retrieve_variable($1); }
@@ -67,7 +71,6 @@ expr:
         | const_expr '-' const_expr { $$ = parse_operation(MINUS, $1, $3); }
         | const_expr '*' const_expr { $$ = parse_operation(MULTIPLY, $1, $3); }
         | const_expr '/' const_expr { $$ = parse_operation(DIVIDE, $1, $3); }
-        | '(' expr ')'              { $$ = $2; }
         ;
 
 const_expr:
@@ -110,7 +113,7 @@ int main(int argc, char** argv)
 {
     if (argc < 2)
     {
-        yyerror("no input file passed");
+        yyerror("No input file passed");
         return -1;
     }
 

@@ -13,17 +13,18 @@ Compiler& Compiler::get()
     return gonot;
 }
 
-void Compiler::compile(statement* s_ptr) { get()._compile(s_ptr); }
+void Compiler::compile(statement* s_ptr, int line_inc) { get()._compile(s_ptr, line_inc); }
 
 bool Compiler::has_errors() { return !get().errors.empty(); }
 
 void Compiler::write(std::string filename) { get()._write(filename); }
 
-void Compiler::_compile(statement* s_ptr)
+void Compiler::_compile(statement* s_ptr, int line_inc)
 {
     if (!s_ptr)
         return;
 
+    line_number += line_inc;
     std::variant<int, float, char, std::string> value;
     switch (s_ptr->type)
     {
@@ -33,7 +34,7 @@ void Compiler::_compile(statement* s_ptr)
             break;
         case DECLARE:
             if (SymbolTable::declare(s_ptr->var.type, s_ptr->var.identifier) == MULTI_DECLARATION)
-                errors.push_back("Error: " + std::string(s_ptr->var.identifier) + "is already declared");
+                errors.push_back("Error: " + std::string(s_ptr->var.identifier) + "is already declared at line: " + std::to_string(line_number));
             break;
         case RETRIEVE:
             if (get_variable(s_ptr->var, value))
@@ -73,7 +74,7 @@ void Compiler::compile_assignment(statement* s_ptr)
             command += idf;
             break;
         default:
-            errors.push_back("Error: invalid right hand side");
+            errors.push_back("Error: invalid right hand side at line: " + std::to_string(line_number));
             return;
             break;
     }
@@ -84,10 +85,10 @@ void Compiler::compile_assignment(statement* s_ptr)
             result.push_back(command);
             break;
         case MISSING_DECLARATION:
-            errors.push_back("Error: undefined variable " + idf);
+            errors.push_back("Error: undefined variable " + idf + " at line: " + std::to_string(line_number));
             break;
         case TYPE_MISS_MATCH:
-            errors.push_back("Error: undefined variable " + idf);
+            errors.push_back("Error: undefined variable " + idf + " at line: " + std::to_string(line_number));
             break;
         default:
             break;
@@ -131,11 +132,11 @@ bool Compiler::assign_retrieve(const varStatementType& var,
     switch(SymbolTable::retrieve(idf, value))
     {
         case MISSING_DECLARATION:
-            errors.push_back("Error: undefined variable " + idf);
+            errors.push_back("Error: undefined variable " + idf + " at line: " + std::to_string(line_number));
             return false;
             break;
         case BAD_ACCESS:
-            errors.push_back("Error: variable is used without initialization " + idf);
+            errors.push_back("Error: variable is used without initialization " + idf + " at line: " + std::to_string(line_number));
             return false;
             break;
         case SUCCESS:
@@ -160,7 +161,7 @@ bool Compiler::assign_operation(const operationStatementType& opr,
 
     if (op1_value.index() > 1 || op2_value.index() > 1)
     {
-        errors.push_back("Error: can't perform mathematical operations on non numeric values");
+        errors.push_back("Error: can't perform mathematical operations on non numeric values at line: " + std::to_string(line_number));
         return false;
     }
 
@@ -210,7 +211,7 @@ void Compiler::compile_operation(statement* s_ptr)
 
     if (op1_value.index() > 1 || op2_value.index() > 1)
     {
-        errors.push_back("Error: can't perform mathematical operations on non numeric values");
+        errors.push_back("Error: can't perform mathematical operations on non numeric values at line: " + std::to_string(line_number));
         return;
     }
 
@@ -249,11 +250,11 @@ bool Compiler::get_variable(const varStatementType& var, std::variant<int, float
     switch(SymbolTable::retrieve(idf, value))
     {
         case MISSING_DECLARATION:
-            errors.push_back("Error: undefined variable " + idf);
+            errors.push_back("Error: undefined variable " + idf + " at line: " + std::to_string(line_number));
             return false;
             break;
         case BAD_ACCESS:
-            errors.push_back("Error: variable is used without initialization " + idf);
+            errors.push_back("Error: variable is used without initialization " + idf + " at line: " + std::to_string(line_number));
             return false;
             break;
         case SUCCESS:
@@ -277,7 +278,7 @@ bool Compiler::get_operand(statement* op, std::variant<int, float, char, std::st
                 return false;
             break;
         default:
-            errors.push_back("Error: invalid operand");
+            errors.push_back("Error: invalid operand at line: " + std::to_string(line_number));
             return false;
             break;
     }
