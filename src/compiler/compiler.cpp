@@ -34,7 +34,7 @@ void Compiler::_compile(statement* s_ptr, int line_inc)
             break;
         case DECLARE:
             if (SymbolTable::declare(s_ptr->var.type, s_ptr->var.identifier) == MULTI_DECLARATION)
-                errors.push_back("Error: " + std::string(s_ptr->var.identifier) + "is already declared at line: " + std::to_string(line_number));
+                errors.push_back("Error: " + std::string(s_ptr->var.identifier) + " is already declared at line: " + std::to_string(line_number));
             break;
         case RETRIEVE:
             if (get_variable(s_ptr->var, value))
@@ -88,7 +88,7 @@ void Compiler::compile_assignment(statement* s_ptr)
             errors.push_back("Error: undefined variable " + idf + " at line: " + std::to_string(line_number));
             break;
         case TYPE_MISS_MATCH:
-            errors.push_back("Error: undefined variable " + idf + " at line: " + std::to_string(line_number));
+            errors.push_back("Error: type miss match " + idf + " at line: " + std::to_string(line_number));
             break;
         default:
             break;
@@ -99,6 +99,7 @@ void Compiler::assign_const(const constStatementType& con,
                              std::variant<int, float, char, std::string>& value,
                              std::string& command)
 {
+    std::string str = "";
     switch(con.type)
     {
         case INT_TYPE:
@@ -112,12 +113,15 @@ void Compiler::assign_const(const constStatementType& con,
         case CHAR_TYPE:
             value = con.data.char_val;
             command += "'";
-            command += con.data.char_val;
+            if (con.data.char_val)
+                command += con.data.char_val;
             command += "'";
             break;
         case STRING_TYPE:
-            value = std::string(con.data.str_val);
-            command += "\"" + std::string(con.data.str_val) + "\"";
+            if (con.data.str_val != 0)
+                str = std::string(con.data.str_val);
+            value = str;
+            command += "\"" + str + "\"";
             break;
         default:
             break;
@@ -136,7 +140,7 @@ bool Compiler::assign_retrieve(const varStatementType& var,
             return false;
             break;
         case BAD_ACCESS:
-            errors.push_back("Error: variable is used without initialization " + idf + " at line: " + std::to_string(line_number));
+            errors.push_back("Error: variable " + idf + " is used without initialization at line: " + std::to_string(line_number));
             return false;
             break;
         case SUCCESS:

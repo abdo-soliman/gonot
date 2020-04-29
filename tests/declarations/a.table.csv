@@ -1,0 +1,10 @@
+identifier,type,initialized,value
+character_1,CHAR,true,a
+character_2,CHAR,true,a
+float_1,FLOAT,true,8.5
+float_2,FLOAT,true,2.83333
+integer_1,INT,true,5
+integer_2,INT,true,6
+integer_3,INT,true,11
+str,STRING,true,this is a string variable
+str2,STRING,true,this is a string variable

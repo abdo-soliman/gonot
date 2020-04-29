@@ -1,0 +1,7 @@
+identifier,type,initialized,value
+sum1,INT,true,20
+sum2,FLOAT,true,9.878
+w,FLOAT,true,0.7
+x,INT,true,10
+y,INT,true,20
+z,FLOAT,true,3.14

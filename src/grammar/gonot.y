@@ -31,15 +31,16 @@
 %%
 
 program:
-        program stmt '\n'         { Compiler::compile($2, 1); free_statement($2); }
+        program stmt    { Compiler::compile($2, 1); free_statement($2); }
         | /* NULL */
         ;
 
 stmt:
-        expr                        { $$ = $1; }
-        | declare_stmt              { $$ = $1; }
-        | declare_stmt '=' expr     { Compiler::compile($1, 0); $$ = assign($1->var.identifier, $3); }
-        | VARIABLE '=' expr         { $$ = assign($1, $3); }
+        ';'                             { $$ = NULL; }
+        | expr ';'                      { $$ = $1; }
+        | declare_stmt ';'              { $$ = $1; }
+        | declare_stmt '=' expr ';'     { Compiler::compile($1, 0); $$ = assign($1->var.identifier, $3); }
+        | VARIABLE '=' expr ';'         { $$ = assign($1, $3); }
         ;
 
 declare_stmt:
@@ -48,6 +49,7 @@ declare_stmt:
         | CHAR VARIABLE     { $$ = declare_variable(CHAR_TYPE, $2); }
         | STRING VARIABLE   { $$ = declare_variable(STRING_TYPE, $2); }
         ;
+
 expr:
         const_expr
         | VARIABLE                  { $$ = retrieve_variable($1); }

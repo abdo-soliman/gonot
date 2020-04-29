@@ -1,6 +1,5 @@
 #include "symbol_table/symbol_table.h"
 #include "utils/utils.h"
-#include <iostream>
 #include <fstream>
 
 SymbolTable::SymbolTable() { }
@@ -37,7 +36,7 @@ status SymbolTable::_assign(std::string identifier, std::variant<int, float, cha
     if (ptr == table.end())
         return MISSING_DECLARATION;
 
-    if (value.index() != ptr->second.type)
+    if (!(value.index() == 0 && ptr->second.type == FLOAT_TYPE) && value.index() != ptr->second.type)
         return TYPE_MISS_MATCH;
 
     ptr->second.initialized = true;

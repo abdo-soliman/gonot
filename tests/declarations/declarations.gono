@@ -1,0 +1,19 @@
+int integer_1;
+integer_1 = 5;
+int integer_2 = 6;
+int integer_3 = integer_1 + integer_2;
+
+float float_1 = integer_3 - 2.5;
+float float_2;
+float_2 = float_1
+/ 3;
+
+string str = "";
+str = "this is a string variable"
+;
+string str2 = str;
+
+char character_1 = '' ;
+character_1 = 'a';
+char character_2 = character_1;
+;;;;;;;;;;

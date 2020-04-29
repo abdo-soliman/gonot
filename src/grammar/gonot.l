@@ -23,18 +23,6 @@
                                                         {
                                                             yylval.str_val = (char *)malloc((yyleng-2) * sizeof(char));
                                                             strncpy(yylval.str_val, yytext+1, yyleng-2);
-
-                                                            if(strcmp(yylval.str_val, "interrupt") == 0)
-                                                            {
-                                                                yyerror("Error: illigal use of reserved word interrupt");
-                                                                exit(-1);
-                                                            }
-
-                                                            if(strcmp(yylval.str_val, "stdout") == 0)
-                                                            {
-                                                                yyerror("Error: illigal use of reserved word stdout");
-                                                                exit(-1);
-                                                            }
                                                         }
 
                                                         return STRING_VAL;
@@ -58,14 +46,23 @@
 ([a-zA-Z_])([a-zA-Z0-9_]*)                          {
                                                         yylval.str_val = (char *)malloc((yyleng) * sizeof(char));
                                                         strcpy(yylval.str_val, yytext);
+                                                        if(strcmp(yylval.str_val, "interrupt") == 0)
+                                                        {
+                                                            yyerror("Error: illigal use of reserved word interrupt");
+                                                            exit(-1);
+                                                        }
+
+                                                        if(strcmp(yylval.str_val, "stdout") == 0)
+                                                        {
+                                                            yyerror("Error: illigal use of reserved word stdout");
+                                                            exit(-1);
+                                                        }
                                                         return VARIABLE;
                                                     }
 
-[-+()=/*\n]                                         { return *yytext; }
-
-[ \t]+              ;
-
-.                   yyerror("Unknown character");
+[-+=/*;]                                            { return *yytext; }
+[ \t\n]+                                            ;
+.                                                   yyerror("Unknown character");
 
 %%
 

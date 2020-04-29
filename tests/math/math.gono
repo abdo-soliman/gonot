@@ -1,0 +1,30 @@
+int x
+            = 10;
+int y = 20;
+
+float w = 0.7;
+float z = 3.14
+;
+
+int sum1 = x + y;
+sum1 = sum1 -
+ x;
+sum1 = sum1 * 2;
+sum1 = sum1 / 2;
+
+float sum2 = x * y;
+sum2 = 
+sum2 + w;
+sum2 = sum2             - z;
+sum2 = sum2 / y;;
+
+"this line and the following lines";
+"will be evaluated and printed to stdout";
+"because they are not assigned to anything";
+1.5 + 2.3;
+5 * y;
+z / w;
+7 - 4;
+'f';
+
+;;;;;;;
