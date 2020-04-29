@@ -1,10 +1,16 @@
 int x = 0;
 float y = 5.3;
 x = y;
+
+
 string str = "first declaration";
 c = 'a';
 str = c;
+
+
 str = y;
 string str = "second declaration";
+
 float z;
+
 y = z + x;

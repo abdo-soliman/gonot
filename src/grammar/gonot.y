@@ -31,7 +31,7 @@
 %%
 
 program:
-        program stmt    { Compiler::compile($2, 1); free_statement($2); }
+        program stmt    { Compiler::compile($2); free_statement($2); }
         | /* NULL */
         ;
 
@@ -39,7 +39,7 @@ stmt:
         ';'                             { $$ = NULL; }
         | expr ';'                      { $$ = $1; }
         | declare_stmt ';'              { $$ = $1; }
-        | declare_stmt '=' expr ';'     { Compiler::compile($1, 0); $$ = assign($1->var.identifier, $3); }
+        | declare_stmt '=' expr ';'     { Compiler::compile($1); $$ = assign($1->var.identifier, $3); }
         | VARIABLE '=' expr ';'         { $$ = assign($1, $3); }
         ;
 

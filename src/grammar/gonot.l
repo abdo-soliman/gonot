@@ -2,6 +2,7 @@
     #include <stdlib.h>
     #include <string.h>
     #include "grammar/gonot.h"
+    #include "compiler/compiler.h"
     #include "grammar/y.tab.h"
 %}
 
@@ -61,7 +62,11 @@
                                                     }
 
 [-+=/*;]                                            { return *yytext; }
-[ \t\n]+                                            ;
+[\n]+                                               {
+                                                        for (int i = 0; i < yyleng; i++)
+                                                            Compiler::next_line();
+                                                    }
+[ \t]+                                              ;
 .                                                   yyerror("Unknown character");
 
 %%

@@ -1,6 +1,6 @@
 Error: type miss match x at line: 3
-Error: undefined variable c at line: 5
-Error: undefined variable c at line: 6
-Error: type miss match str at line: 7
-Error: str is already declared at line: 7
-Error: variable is used without initialization z at line: 10
+Error: undefined variable c at line: 7
+Error: undefined variable c at line: 8
+Error: type miss match str at line: 11
+Error: str is already declared at line: 12
+Error: variable is used without initialization z at line: 16

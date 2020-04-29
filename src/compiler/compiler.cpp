@@ -13,18 +13,21 @@ Compiler& Compiler::get()
     return gonot;
 }
 
-void Compiler::compile(statement* s_ptr, int line_inc) { get()._compile(s_ptr, line_inc); }
+void Compiler::next_line() { get()._next_line(); }
+
+void Compiler::compile(statement* s_ptr) { get()._compile(s_ptr); }
 
 bool Compiler::has_errors() { return !get().errors.empty(); }
 
 void Compiler::write(std::string filename) { get()._write(filename); }
 
-void Compiler::_compile(statement* s_ptr, int line_inc)
+void Compiler::_next_line() { line_number++; }
+
+void Compiler::_compile(statement* s_ptr)
 {
     if (!s_ptr)
         return;
 
-    line_number += line_inc;
     std::variant<int, float, char, std::string> value;
     switch (s_ptr->type)
     {
@@ -290,10 +293,18 @@ bool Compiler::get_operand(statement* op, std::variant<int, float, char, std::st
     return true;
 }
 
-void Compiler::log_errors()
+void Compiler::log_errors(std::string filename)
 {
+    if (get().errors.empty())
+        return;
+
+    std::ofstream errors_file;
+    errors_file.open(filename.c_str());
     for (const auto& error : get().errors)
+    {
+        errors_file << error << '\n';
         std::cout << error << '\n';
+    }
 }
 
 void Compiler::_write(std::string filename)

@@ -12,14 +12,16 @@ public:
     static Compiler& get();
     Compiler(const Compiler&) = delete;
 
-    static void compile(statement* s_ptr, int line_inc);
+    static void next_line();
+    static void compile(statement* s_ptr);
     static bool has_errors();
-    static void log_errors();
+    static void log_errors(std::string filename="errors.log");
     static void write(std::string filename="a.asm");
 private:
     Compiler();
 
-    void _compile(statement* s_ptr, int line_inc);
+    void _next_line();
+    void _compile(statement* s_ptr);
 
     // issue print intrupt in case on non assignment statement with expression result
     void print_routine(int type, std::string value);
@@ -42,7 +44,7 @@ private:
 
     std::vector<std::string> errors;
     std::vector<std::string> result;
-    int line_number = 0;
+    int line_number = 1;
 };
 
 #endif
